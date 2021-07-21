@@ -1,4 +1,4 @@
-package com.example.edify
+package com.ashaman999.edify
 
 import io.flutter.embedding.android.FlutterActivity
 
