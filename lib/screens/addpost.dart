@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:cool_alert/cool_alert.dart';
 import 'package:edify/database/add_post.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,7 +33,11 @@ class _AddPostState extends State<AddPost> {
   void postBlog() async {
     if (pickedFile == null) {
       // add a pop up warning
-
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.warning,
+        text: "Please Select an Image",
+      );
     } else {
       final refr = FirebaseStorage.instance
           .ref("uploadedImages/${randomAlphaNumeric(8)}.jpg");
@@ -54,6 +58,15 @@ class _AddPostState extends State<AddPost> {
       };
       helper.addData(postMap).then((value) {
         print("upload sucessfull");
+        setState(() {
+          imagePath = "";
+          pickedFile = null;
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.success,
+            text: "Sucessfully Posted",
+          );
+        });
       }); // upload image to firebase
     }
   }
