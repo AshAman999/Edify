@@ -68,8 +68,19 @@ class _AddPostState extends State<AddPost> {
         child: isloading
             ? Container(
                 child: Center(
-                  child: CupertinoActivityIndicator(
-                    radius: 20,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CupertinoActivityIndicator(
+                        radius: 20,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Uploading \n Please wait",
+                      )
+                    ],
                   ),
                 ),
               )
