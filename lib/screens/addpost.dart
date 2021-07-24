@@ -38,15 +38,20 @@ class _AddPostState extends State<AddPost> {
         type: CoolAlertType.warning,
         text: "Please Select an Image",
       );
+      return;
+    } else if (title == "" || description == "" || location == "") {
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.warning,
+        text: "Please Fill all the  fields",
+      );
+      return;
     } else {
+      isloading = true;
       final refr = FirebaseStorage.instance
           .ref("uploadedImages/${randomAlphaNumeric(8)}.jpg");
       final task = refr.putFile(File(imagePath));
-      final snapshot = await task.whenComplete(() {
-        setState(() {
-          isloading = false;
-        });
-      });
+      final snapshot = await task.whenComplete(() {});
       imglink = await snapshot.ref.getDownloadURL();
       print(imglink);
       Map<String, String> postMap = {
@@ -61,11 +66,18 @@ class _AddPostState extends State<AddPost> {
         setState(() {
           imagePath = "";
           pickedFile = null;
+          title = "";
+          description = "";
+          location = "";
           CoolAlert.show(
             context: context,
             type: CoolAlertType.success,
             text: "Sucessfully Posted",
           );
+          setState(() {
+            isloading = false;
+          });
+          return;
         });
       }); // upload image to firebase
     }
@@ -73,11 +85,11 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Add a Post'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add a Post'),
       ),
-      child: SafeArea(
+      body: SafeArea(
         child: isloading
             ? Container(
                 child: Center(
@@ -198,9 +210,7 @@ class _AddPostState extends State<AddPost> {
                                     color: Colors.blue,
                                     child: Text("Post"),
                                     onPressed: () {
-                                      setState(() {
-                                        isloading = true;
-                                      });
+                                      setState(() {});
                                       print("clicked");
                                       postBlog();
                                     }),

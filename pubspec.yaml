@@ -35,6 +35,7 @@ dependencies:
   random_string: ^2.3.1
   cool_alert: ^1.1.0
   cached_network_image: ^3.1.0
+  curved_navigation_bar: ^1.0.1
 
 dev_dependencies:
   flutter_test:

@@ -4,6 +4,7 @@ import 'package:edify/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -33,6 +34,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   List<Widget> _tabs = [
     HomeScreen(),
     AddPost(),
@@ -42,25 +50,23 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_rounded),
-              label: 'AddPost',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
-        tabBuilder: (BuildContext context, index) {
-          return _tabs[index];
-        });
+    return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 45,
+        // (MediaQuery.of(context).size.height ) / 100 * 40,
+
+        onTap: onTabTapped, // new
+        index: _currentIndex, //
+        items: [
+          Icon(
+            Icons.home,
+            
+          ),
+          Icon(Icons.add_circle_rounded),
+          Icon(Icons.person),
+        ],
+      ),
+      body: _tabs[_currentIndex],
+    );
   }
 }

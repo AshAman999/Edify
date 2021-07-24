@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
+      child: Scaffold(
+        appBar: AppBar(
           leading: Icon(Icons.menu),
-          middle: Text("Edify"),
+          title: Text("Edify"),
         ),
-        child: loaded
+        body: loaded
             ? postlist()
             : Center(
                 child: CupertinoActivityIndicator(
@@ -81,51 +81,61 @@ class PostTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
-      child: Container(
-        height: 180,
-        child: Stack(
-          children: [
-            CachedNetworkImage(
-              imageUrl: imgurl,
-              fit: BoxFit.fitWidth,
-              width: double.infinity,
-              height: double.infinity,
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(title),
-                  Text(description),
-                  Text(authorName),
-                  Text(location),
-                ],
-              ),
+        width: 200,
+        height: 320,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
-      )
-      /* add child content here */,
-    );
+        margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.person),
+                SizedBox(width: 20),
+                Text(
+                  authorName,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(width: 20),
+                Text(location),
+              ],
+            ),
+            CachedNetworkImage(
+              imageUrl: imgurl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 200,
+                placeholder: (context, url) => CupertinoActivityIndicator(),
+              // progressIndicatorBuilder: (context, url, downloadProgress) =>
+              //     CircularProgressIndicator(value: downloadProgress.progress),
+
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+            Text(title),
+            Text(description),
+          ],
+        )
+
+        /* add child content here */
+        );
   }
 }
