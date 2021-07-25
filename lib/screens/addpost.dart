@@ -97,14 +97,8 @@ class _AddPostState extends State<AddPost> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CupertinoActivityIndicator(
-                        radius: 20,
+                        radius: 10,
                       ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Uploading \n Please wait",
-                      )
                     ],
                   ),
                 ),
@@ -154,7 +148,7 @@ class _AddPostState extends State<AddPost> {
                       ),
                       Container(
                         margin:
-                            EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
