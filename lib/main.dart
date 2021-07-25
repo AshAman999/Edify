@@ -1,6 +1,8 @@
 import 'package:edify/screens/addpost.dart';
 import 'package:edify/screens/home.dart';
+import 'package:edify/screens/loginPage.dart';
 import 'package:edify/screens/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var currentUser = FirebaseAuth.instance.currentUser;
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Edify ',
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: MyHomePage(title: 'A clutter free social media'),
+      home: currentUser != null ? MyHomePage(title: 'Edify') : LoginScreen(),
     );
   }
 }
@@ -60,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           Icon(
             Icons.home,
-            
           ),
           Icon(Icons.add_circle_rounded),
           Icon(Icons.person),

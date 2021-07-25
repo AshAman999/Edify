@@ -182,6 +182,8 @@ class _AddPostState extends State<AddPost> {
                               ),
                             ),
                             CupertinoTextField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 10,
                               clearButtonMode: OverlayVisibilityMode.editing,
                               placeholder: "Enter a short description",
                               onChanged: (value) {
