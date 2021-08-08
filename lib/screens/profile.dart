@@ -1,7 +1,8 @@
 import 'package:edify/screens/loginPage.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -106,8 +107,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    // final user = UserPreferences.myUser;
-    Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+    var user = FirebaseAuth.instance.currentUser;
+
+    // get user about information
 
     return Scaffold(
       appBar: AppBar(
@@ -125,13 +127,13 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user.imagePath,
+            imagePath: user!.photoURL.toString(),
             onClicked: () async {},
           ),
           const SizedBox(height: 24),
           buildName(user),
           const SizedBox(height: 24),
-          Center(child: buildUpgradeButton()),
+          Center(child: buildUpgradeButton(user)),
           const SizedBox(height: 24),
           buildAbout(user),
         ],
@@ -139,12 +141,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildName(User user) => Column(
+  Widget buildName(user) => Column(
         children: [
-          Text(
-            user.name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
           const SizedBox(height: 4),
           Text(
             user.email,
@@ -153,12 +151,15 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       );
 
-  Widget buildUpgradeButton() => ButtonWidget(
-        text: 'Upgrade To PRO',
-        onClicked: () {},
+  Widget buildUpgradeButton(user) => ButtonWidget(
+        text: user.displayName,
+        onClicked: () async {
+          await FirebaseAuth.instance.signOut();
+          SystemNavigator.pop();
+        },
       );
 
-  Widget buildAbout(User user) => Container(
+  Widget buildAbout(user) => Container(
         padding: EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +170,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 16),
             Text(
-              user.about,
+              // user.about,
+              // user.profile.about,
+              "Some random giberish text to be put here",
               style: TextStyle(fontSize: 16, height: 1.4),
             ),
           ],
