@@ -35,7 +35,7 @@ dependencies:
   cool_alert: ^1.1.0
   cached_network_image: ^3.1.0
   curved_navigation_bar: ^1.0.1
-  flutter_login: ^2.2.0
+  flutter_login: ^2.2.1
   firebase_auth: ^3.0.1
   font_awesome_flutter: ^9.1.0
   flutter_spinkit: ^5.0.0
