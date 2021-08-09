@@ -114,12 +114,15 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.lightBlue[400],
         elevation: 0,
+        toolbarHeight: 40,
         actions: [
           IconButton(
-            icon: Icon(CupertinoIcons.moon_stars),
-            onPressed: () {},
+            icon: Icon(Icons.logout_rounded),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
           ),
         ],
       ),
@@ -127,7 +130,8 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user!.photoURL.toString(),
+            imagePath:
+                "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=85",
             onClicked: () async {},
           ),
           const SizedBox(height: 24),
@@ -145,14 +149,14 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           const SizedBox(height: 4),
           Text(
-            user.email,
+            user.email == null ? "Not logged in" : user.email,
             style: TextStyle(color: Colors.grey),
           )
         ],
       );
 
   Widget buildUpgradeButton(user) => ButtonWidget(
-        text: user.displayName,
+        text: user.displayName == null ? "Edit Name" : user.displayName,
         onClicked: () async {
           await FirebaseAuth.instance.signOut();
           SystemNavigator.pop();
@@ -171,8 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16),
             Text(
               // user.about,
-              // user.profile.about,
-              "Some random giberish text to be put here",
+              "Some random giberish text to be put here  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
               style: TextStyle(fontSize: 16, height: 1.4),
             ),
           ],

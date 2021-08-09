@@ -2,13 +2,10 @@ import 'package:edify/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
-
-const users = const {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
 
 class LoginScreen extends StatelessWidget {
   Duration get loginTime => Duration(milliseconds: 2250);
@@ -22,6 +19,22 @@ class LoginScreen extends StatelessWidget {
           email: "${data.name}",
           password: "${data.password}",
         );
+        return "";
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          return ('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          return ('Wrong password provided for that user.');
+        }
+        return "Unexpected Error";
+      }
+    });
+  }
+
+  Future<String> signInWithGoogle() {
+    return Future.delayed(loginTime).then((_) async {
+      try {
+        GoogleSignInAccount? userCredential = await GoogleSignIn().signIn();
         return "";
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -55,9 +68,6 @@ class LoginScreen extends StatelessWidget {
 
   Future<String> _recoverPassword(String name) {
     return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
-      }
       return "null";
     });
   }
@@ -69,6 +79,20 @@ class LoginScreen extends StatelessWidget {
       // logo: 'assets/images/ecorp-lightblue.png',
       onLogin: _authUser,
       onSignup: _signup,
+
+      loginProviders: <LoginProvider>[
+        LoginProvider(
+          icon: FontAwesomeIcons.google,
+          label: 'Google',
+          callback: () async {
+            print('start google sign in');
+            signInWithGoogle();
+            await Future.delayed(loginTime);
+            print('stop google sign in');
+            return null;
+          },
+        ),
+      ],
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => MyHomePage(title: "Edify"),
