@@ -5,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-FirebaseAuth auth = FirebaseAuth.instance;
-
 class LoginScreen extends StatelessWidget {
   Duration get loginTime => Duration(milliseconds: 2250);
 
@@ -34,7 +32,17 @@ class LoginScreen extends StatelessWidget {
   Future<String> signInWithGoogle() {
     return Future.delayed(loginTime).then((_) async {
       try {
-        GoogleSignInAccount? userCredential = await GoogleSignIn().signIn();
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+        // Obtain the auth details from the request
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser!.authentication;
+
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
         return "";
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -86,7 +94,7 @@ class LoginScreen extends StatelessWidget {
           label: 'Google',
           callback: () async {
             print('start google sign in');
-            signInWithGoogle();
+            await signInWithGoogle();
             await Future.delayed(loginTime);
             print('stop google sign in');
             return null;

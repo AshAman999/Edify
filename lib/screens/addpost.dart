@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoder/geocoder.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -15,9 +17,11 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   FirebaseHelper helper = FirebaseHelper();
+
+  late TextEditingController location;
   bool isloading = false;
   String imglink = "";
-  String title = "", description = "", location = "";
+  String title = "", description = "";
   String imagePath = "";
   final picker = ImagePicker();
   var pickedFile;
@@ -30,6 +34,29 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
+  Future<String> getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    var first;
+    setState(() async {
+      final coordinates =
+          new Coordinates(position.latitude, position.longitude);
+      var addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      first = addresses.first;
+      print("${first.featureName} : ${first.addressLine}");
+    });
+    return first.featureName;
+  }
+
+  @override
+  void initState() async {
+    String city = await getLocation();
+
+    location = TextEditingController(text: city);
+    super.initState();
+  }
+
   void postBlog() async {
     if (pickedFile == null) {
       // add a pop up warning
@@ -39,7 +66,7 @@ class _AddPostState extends State<AddPost> {
         text: "Please Select an Image",
       );
       return;
-    } else if (title == "" || description == "" || location == "") {
+    } else if (title == "" || description == "" || location.text == "") {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.warning,
@@ -59,7 +86,7 @@ class _AddPostState extends State<AddPost> {
         "uploaderName": " Aman",
         "title": title,
         "desc": description,
-        "Location": location,
+        "Location": location.text,
       };
       helper.addData(postMap).then((value) {
         print("upload sucessfull");
@@ -68,7 +95,7 @@ class _AddPostState extends State<AddPost> {
           pickedFile = null;
           title = "";
           description = "";
-          location = "";
+          location.text = "";
           CoolAlert.show(
             context: context,
             type: CoolAlertType.success,
@@ -194,9 +221,8 @@ class _AddPostState extends State<AddPost> {
                             ),
                             CupertinoTextField(
                               placeholder: "Enter a location",
-                              onChanged: (value) {
-                                location = value;
-                              },
+                              onTap: getLocation,
+                              controller: location,
                             ),
                             Center(
                               child: Container(
