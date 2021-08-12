@@ -21,7 +21,7 @@ class _AddPostState extends State<AddPost> {
   late TextEditingController location;
   bool isloading = false;
   String imglink = "";
-  String title = "", description = "";
+  String title = "", description = "", city = "";
   String imagePath = "";
   final picker = ImagePicker();
   var pickedFile;
@@ -43,17 +43,19 @@ class _AddPostState extends State<AddPost> {
           new Coordinates(position.latitude, position.longitude);
       var addresses =
           await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      first = addresses.first;
-      print("${first.featureName} : ${first.addressLine}");
+      first = addresses.first.locality;
+      print(" : $first");
     });
-    return first.featureName;
+    city = first;
+    return first;
   }
 
   @override
-  void initState() async {
-    String city = await getLocation();
-
-    location = TextEditingController(text: city);
+  void initState() {
+    setState(() {
+      getLocation();
+      location = TextEditingController(text: city);
+    });
     super.initState();
   }
 
@@ -220,8 +222,8 @@ class _AddPostState extends State<AddPost> {
                               ),
                             ),
                             CupertinoTextField(
-                              placeholder: "Enter a location",
-                              onTap: getLocation,
+                              placeholder: city,
+                              autofillHints: [city],
                               controller: location,
                             ),
                             Center(
