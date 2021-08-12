@@ -122,6 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
             icon: Icon(Icons.logout_rounded),
             onPressed: () {
               FirebaseAuth.instance.signOut();
+              SystemNavigator.pop();
             },
           ),
         ],
@@ -130,8 +131,9 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath:
-                "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=85",
+            imagePath: user!.photoURL == null
+                ? "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=85"
+                : user.photoURL.toString(),
             onClicked: () async {},
           ),
           const SizedBox(height: 24),
@@ -156,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
 
   Widget buildUpgradeButton(user) => ButtonWidget(
-        text: user.displayName == null ? "Edit Name" : user.displayName,
+        text: user.displayName == "" ? "Edit Name" : user.displayName,
         onClicked: () async {
           await FirebaseAuth.instance.signOut();
           SystemNavigator.pop();
