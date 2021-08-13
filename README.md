@@ -1,6 +1,6 @@
 # Edify
 
-- A simple minimalist ad free social media app that's aimed for reducing clutter  made for the users who just want to have a simple social media for sharing their experiences and hate to have the default ad trackers and want to enjoy an ad free experience.
+- A simple minimalist ad free social media app that's aimed for reducing clutter,made for the users who just want to have a simple social media for sharing their experiences and hate to have the default ad trackers and want to enjoy an ad free experience.
 - As it open source so there is no possiblity for hidden ad trackers require any account sign in or anything so in general it is the simplest social media without any compromise on privacy.
 - This app is made keeping in mind for clutter free minalist expereince.
 
