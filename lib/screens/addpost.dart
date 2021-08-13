@@ -117,6 +117,9 @@ class _AddPostState extends State<AddPost> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add a Post'),
+        backgroundColor: Colors.lightBlue[400],
+        elevation: 0,
+        toolbarHeight: 40,
       ),
       body: SafeArea(
         child: isloading

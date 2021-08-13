@@ -2,7 +2,7 @@
     package="com.ashaman999.edify">
    <application
         android:label="edify"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

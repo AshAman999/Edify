@@ -54,13 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           leading: Icon(Icons.menu),
           title: Text("Edify"),
+          backgroundColor: Colors.lightBlue[400],
+          elevation: 0,
+          toolbarHeight: 40,
         ),
         body: loaded
             ? postlist()
             : Center(
-                child: CupertinoActivityIndicator(
-                  radius: 20,
-                ),
+                child: CupertinoActivityIndicator(),
               ),
       ),
     );
@@ -81,61 +82,210 @@ class PostTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 200,
-        height: 320,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-        child: Column(
+      padding: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 3,
+            offset: Offset(0, 2), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.person),
-                SizedBox(width: 20),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, top: 20, right: 0),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Icon(Icons.people),
+                // SizedBox(
+                //   width: 5,
+                // ),
+                Text(authorName),
+                SizedBox(
+                  width: 220,
+                ),
                 Text(
-                  authorName,
+                  "$location",
+                  style: TextStyle(
+                    fontSize: 14,
+                    backgroundColor: Colors.black,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
+            SizedBox(
+              height: 15,
+            ),
             Row(
               children: [
-                SizedBox(width: 20),
-                Text(location),
+                SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(20, 0, 10, 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 8,
+                          blurRadius: 9,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    height: 180,
+                    width: 260,
+                    child: Stack(fit: StackFit.expand, children: [
+                      CachedNetworkImage(
+                        imageUrl: imgurl,
+                        fit: BoxFit.cover,
+                      ),
+                    ]),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              width: 90,
+                              child: Text(
+                                "Title",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 90,
+                              height: 30,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  title,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                              width: 90,
+                              child: Text(
+                                "Description",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 90,
+                              height: 100,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  description,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
-            CachedNetworkImage(
-              imageUrl: imgurl,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 200,
-                placeholder: (context, url) => CupertinoActivityIndicator(),
-              // progressIndicatorBuilder: (context, url, downloadProgress) =>
-              //     CircularProgressIndicator(value: downloadProgress.progress),
-
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-            Text(title),
-            Text(description),
-          ],
-        )
-
-        /* add child content here */
-        );
+          ]),
+    );
   }
 }
+
+//  width: 200,
+//         height: 320,
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.only(
+//               topLeft: Radius.circular(10),
+//               topRight: Radius.circular(10),
+//               bottomLeft: Radius.circular(10),
+//               bottomRight: Radius.circular(10)),
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.grey.withOpacity(0.5),
+//               spreadRadius: 5,
+//               blurRadius: 7,
+//               offset: Offset(0, 3), // changes position of shadow
+//             ),
+//           ],
+//         ),
+//         margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               children: [
+//                 Icon(Icons.person),
+//                 SizedBox(width: 20),
+//                 Text(
+//                   authorName,
+//                 ),
+//               ],
+//             ),
+//             Row(
+//               children: [
+//                 SizedBox(width: 20),
+//                 Text(location),
+//               ],
+//             ),
+//             CachedNetworkImage(
+//               imageUrl: imgurl,
+//               fit: BoxFit.cover,
+//               width: double.infinity,
+//               height: 200,
+//               placeholder: (context, url) => CupertinoActivityIndicator(),
+//               // progressIndicatorBuilder: (context, url, downloadProgress) =>
+//               //     CircularProgressIndicator(value: downloadProgress.progress),
+
+//               errorWidget: (context, url, error) => Icon(Icons.error),
+//             ),
+//             Text(title),
+//             Text(description),
+//           ],
+//         )
