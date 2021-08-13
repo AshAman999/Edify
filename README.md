@@ -1,16 +1,31 @@
-# edify
+# Edify
 
-A new Flutter project.
+- A simple minimalist ad free social media app that's aimed for reducing clutter  made for the users who just want to have a simple social media for sharing their experiences and hate to have the default ad trackers and want to enjoy an ad free experience.
+- As it open source so there is no possiblity for hidden ad trackers require any account sign in or anything so in general it is the simplest social media without any compromise on privacy.
+- This app is made keeping in mind for clutter free minalist expereince.
 
-## Getting Started
+## Tech Stacks Used
 
-This project is a starting point for a Flutter application.
+| Need             | Tech Used                    |
+| ---------------- | ---------------------------- |
+| UI               | Canva (Self Designed)|
+| framework        | Flutter                      |
+| Caching		   | Cached Netwok Image Package             |
+| authenticaton    | Firebase Authentication             |
+| database         | Google Firebase           |
+| storage         | Goole Cloud Storage          |
+| location         | geolocator package         |
+| app icons        | Canva                        |
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Add a post by filling the form under add icon section
+- See all the posts on the home screen
+- Ability to change the user's profile
+- Auto detect the user's positon where they are posting from
+- More features coming soon
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Extras
+ Thanks for your read into this project's readme, would really appreciate the contributions and even reporting of  bugs is highly appreciated. 
+If you have any ideas do raise an issue for that.
