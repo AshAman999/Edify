@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 void main() async {
@@ -19,12 +21,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var currentUser = FirebaseAuth.instance.currentUser;
-    return MaterialApp(
-      title: 'Edify ',
-      debugShowCheckedModeBanner: false,
-      // home: MyHomePage(title: 'A clutter free social media'),
-      home: currentUser != null ? MyHomePage(title: 'Edify') : LoginScreen(),
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        title: 'Edify ',
+        debugShowCheckedModeBanner: false,
+        // home: MyHomePage(title: 'A clutter free social media'),
+        home: currentUser != null ? MyHomePage(title: 'Edify') : LoginScreen(),
+      );
+    });
   }
 }
 

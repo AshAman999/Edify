@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edify/database/add_post.dart';
+import 'package:edify/screens/postdetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -56,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text("Edify"),
           backgroundColor: Colors.lightBlue[400],
           elevation: 0,
-          toolbarHeight: 40,
+          toolbarHeight: 6.h,
         ),
         body: loaded
             ? postlist()
@@ -81,157 +83,199 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 10),
-      margin: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 3,
-            offset: Offset(0, 2), // changes position of shadow
+    return GestureDetector(
+      onTap: () {
+        print("postTile tapped");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                PostDetails(authorName, imgurl, description, location, title),
           ),
-        ],
-      ),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20, top: 20, right: 0),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Icon(Icons.people),
-                // SizedBox(
-                //   width: 5,
-                // ),
-                Text(authorName),
-                SizedBox(
-                  width: 220,
-                ),
-                Text(
-                  "$location",
-                  style: TextStyle(
-                    fontSize: 14,
-                    backgroundColor: Colors.black,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(top: 2.h),
+        margin: EdgeInsets.all(2.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 3,
+              offset: Offset(0, 2), // changes position of shadow
             ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(20, 0, 10, 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 8,
-                          blurRadius: 9,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    height: 180,
-                    width: 260,
-                    child: Stack(fit: StackFit.expand, children: [
-                      CachedNetworkImage(
-                        imageUrl: imgurl,
-                        fit: BoxFit.cover,
+          ],
+        ),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 3.w)),
+                      Icon(
+                        Icons.people,
+                        color: Colors.lightBlue,
                       ),
-                    ]),
+                      Container(
+                        padding: EdgeInsets.all(1.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          // round the corners
+
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          authorName,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 90,
-                              child: Text(
-                                "Title",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 30,
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  title,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 90,
-                              child: Text(
-                                "Description",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 100,
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  description,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                  Container(
+                    padding: EdgeInsets.all(1.w),
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlueAccent,
+                      // round the corners
+
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      "$location",
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                )
-              ],
-            ),
-          ]),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(2.w, 0, 1.w, 2.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 8,
+                            blurRadius: 9,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      height: 28.h,
+                      width: 65.w,
+                      child: Stack(fit: StackFit.expand, children: [
+                        CachedNetworkImage(
+                          imageUrl: imgurl,
+                          fit: BoxFit.cover,
+                        ),
+                      ]),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  SingleChildScrollView(
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 20.w,
+                                child: Text(
+                                  "Title",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 20.w,
+                                height: 4.h,
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    title,
+                                    style: TextStyle(
+                                      fontSize: 10.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: 22.w,
+                                child: Text(
+                                  "Description",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 24.w,
+                                height: 10.h,
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    description,
+                                    style: TextStyle(
+                                      fontSize: 8.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ]),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -41,8 +42,8 @@ class ProfileWidget extends StatelessWidget {
         child: Ink.image(
           image: image,
           fit: BoxFit.cover,
-          width: 128,
-          height: 128,
+          width: 25.w,
+          height: 16.h,
           child: InkWell(onTap: onClicked),
         ),
       ),
@@ -92,7 +93,7 @@ class ButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape: StadiumBorder(),
           onPrimary: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
         ),
         child: Text(text),
         onPressed: onClicked,
@@ -116,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: BackButton(),
         backgroundColor: Colors.lightBlue[400],
         elevation: 0,
-        toolbarHeight: 40,
+        toolbarHeight: 6.h,
         actions: [
           IconButton(
             icon: Icon(Icons.logout_rounded),
@@ -152,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 4),
           Text(
             user.email == null ? "Not logged in" : user.email,
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.grey, fontSize: 12.sp),
           )
         ],
       );
@@ -160,26 +161,31 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildUpgradeButton(user) => ButtonWidget(
         text: user.displayName == "" ? "Edit Name" : user.displayName,
         onClicked: () async {
-          await FirebaseAuth.instance.signOut();
-          SystemNavigator.pop();
+          // await FirebaseAuth.instance.signOut();
+          // SystemNavigator.pop();
         },
       );
 
   Widget buildAbout(user) => Container(
-      padding: EdgeInsets.symmetric(horizontal: 48),
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'About',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
-            Text(
-              // user.about,
-              "Some random giberish text  thea galley ofSome random giberiSomSome random giberish text  thea galley ofSome random giberish text  thea galley ofSome random giberish text  thea galley ofe random giberish text  thea galley ofSome random giberish text  thea galley ofsh text  thea galley ofrr type am giberish text  thea galley of type am giberish text  thea galley of type am giberish text  thea galley of type ",
-              style: TextStyle(fontSize: 16, height: 1.4),
+            const SizedBox(height: 4),
+            Container(
+              height: 34.h,
+              child: SingleChildScrollView(
+                child: Text(
+                  // user.about,
+                  "Some random giberish text  thea galley ofSome random giberiSomSome random giberish text  thea galley ofSome random giberish text  thea galley ofSome random giberish text  thea galley ofe random giberish text  thea galley ofSome random giberish text  thea galley ofsh text  thea galley ofrr type am giberish text  thea galley of type am giberish text  thea galley of type am giberish text  thea galley of type ",
+                  style: TextStyle(fontSize: 12.sp, height: 1.4.sp),
+                ),
+              ),
             ),
           ],
         ),

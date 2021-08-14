@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:edify/database/add_post.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sizer/sizer.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -21,7 +23,7 @@ class _AddPostState extends State<AddPost> {
   late TextEditingController location;
   bool isloading = false;
   String imglink = "";
-  String title = "", description = "", city = "";
+  String title = "", description = "", city = "", author = "";
   String imagePath = "";
   final picker = ImagePicker();
   var pickedFile;
@@ -52,6 +54,10 @@ class _AddPostState extends State<AddPost> {
 
   @override
   void initState() {
+    author = (FirebaseAuth.instance.currentUser!.displayName == null
+        ? "Aman Tester"
+        : FirebaseAuth.instance.currentUser!.displayName)!;
+
     setState(() {
       getLocation();
       location = TextEditingController(text: city);
@@ -85,7 +91,7 @@ class _AddPostState extends State<AddPost> {
       print(imglink);
       Map<String, String> postMap = {
         "uploadedImgUrl": imglink,
-        "uploaderName": " Aman",
+        "uploaderName": author,
         "title": title,
         "desc": description,
         "Location": location.text,
@@ -119,7 +125,7 @@ class _AddPostState extends State<AddPost> {
         title: Text('Add a Post'),
         backgroundColor: Colors.lightBlue[400],
         elevation: 0,
-        toolbarHeight: 40,
+        toolbarHeight: 6.h,
       ),
       body: SafeArea(
         child: isloading
@@ -145,7 +151,7 @@ class _AddPostState extends State<AddPost> {
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                              horizontal: 10.w, vertical: 2.h),
                           child: imagePath == ""
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +161,7 @@ class _AddPostState extends State<AddPost> {
                                       color: Colors.black26,
                                     ),
                                     SizedBox(
-                                      height: 15,
+                                      height: 2.h,
                                     ),
                                     Text(
                                       "Select a photo from the device",
@@ -170,7 +176,7 @@ class _AddPostState extends State<AddPost> {
                                   File(imagePath),
                                   fit: BoxFit.cover,
                                 ),
-                          height: 150,
+                          height: 20.h,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             color: Colors.grey[350],
@@ -179,8 +185,8 @@ class _AddPostState extends State<AddPost> {
                         ),
                       ),
                       Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 20.w, vertical: 0.h),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +195,7 @@ class _AddPostState extends State<AddPost> {
                               "Title",
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 25,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -203,13 +209,13 @@ class _AddPostState extends State<AddPost> {
                               "Description",
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 25,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             CupertinoTextField(
                               keyboardType: TextInputType.multiline,
-                              maxLines: 10,
+                              maxLines: 6,
                               clearButtonMode: OverlayVisibilityMode.editing,
                               placeholder: "Enter a short description",
                               onChanged: (value) {
@@ -220,7 +226,7 @@ class _AddPostState extends State<AddPost> {
                               "Location",
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 25,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

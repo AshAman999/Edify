@@ -43,6 +43,7 @@ dependencies:
   google_sign_in: ^5.0.7
   geolocator: ^7.4.0
   geocoder: ^0.2.1
+  sizer: ^2.0.13
 
 dev_dependencies:
   flutter_test:
