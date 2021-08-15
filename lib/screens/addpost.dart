@@ -54,7 +54,7 @@ class _AddPostState extends State<AddPost> {
 
   @override
   void initState() {
-    author = (FirebaseAuth.instance.currentUser!.displayName == null
+    author = (FirebaseAuth.instance.currentUser!.displayName == ""
         ? "Aman Tester"
         : FirebaseAuth.instance.currentUser!.displayName)!;
 

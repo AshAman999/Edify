@@ -4,6 +4,7 @@ import 'package:edify/screens/postdetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,7 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: Icon(Icons.menu),
-          title: Text("Edify"),
+          title: Text(
+            "Edify",
+            style: GoogleFonts.shadowsIntoLight(
+              textStyle: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           backgroundColor: Colors.lightBlue[400],
           elevation: 0,
           toolbarHeight: 6.h,
