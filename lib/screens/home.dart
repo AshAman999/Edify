@@ -101,8 +101,8 @@ class PostTile extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.only(top: 2.h),
-        margin: EdgeInsets.all(2.w),
+        padding: EdgeInsets.only(top: 0.5.h, bottom: 0.5.h),
+        margin: EdgeInsets.all(1.w),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -112,15 +112,15 @@ class PostTile extends StatelessWidget {
               bottomRight: Radius.circular(10)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
+              color: Colors.grey.withOpacity(0.7),
+              spreadRadius: 3,
               blurRadius: 3,
-              offset: Offset(0, 2), // changes position of shadow
+              offset: Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,10 +163,10 @@ class PostTile extends StatelessWidget {
                       // round the corners
 
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
                       ),
                     ),
                     child: Text(
@@ -195,9 +195,9 @@ class PostTile extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 8,
-                            blurRadius: 9,
-                            offset: Offset(0, 3), // changes position of shadow
+                            spreadRadius: 3,
+                            blurRadius: 4,
+                            offset: Offset(0, 8), // changes position of shadow
                           ),
                         ],
                       ),
@@ -220,16 +220,16 @@ class PostTile extends StatelessWidget {
                   SizedBox(
                     width: 3.w,
                   ),
-                  SingleChildScrollView(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 42.w,
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 42.w,
+                              child: SingleChildScrollView(
                                 child: Text(
                                   "Title",
                                   style: TextStyle(
@@ -239,49 +239,49 @@ class PostTile extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: 42.w,
-                                height: 3.h,
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    title,
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                width: 42.w,
+                            ),
+                            Container(
+                              width: 42.w,
+                              height: 2.h,
+                              child: SingleChildScrollView(
                                 child: Text(
-                                  "Description",
+                                  title,
                                   style: TextStyle(
-                                    color: Colors.blue,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10.sp,
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: 42.w,
-                                height: 4.h,
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    description,
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                    ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                              width: 42.w,
+                              child: Text(
+                                "Description",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 42.w,
+                              height: 4.h,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  description,
+                                  style: TextStyle(
+                                    fontSize: 9.sp,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   )
                 ],

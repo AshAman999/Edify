@@ -172,9 +172,12 @@ class _AddPostState extends State<AddPost> {
                                     ),
                                   ],
                                 )
-                              : Image.file(
-                                  File(imagePath),
-                                  fit: BoxFit.cover,
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.file(
+                                    File(imagePath),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                           height: 20.h,
                           width: MediaQuery.of(context).size.width,
