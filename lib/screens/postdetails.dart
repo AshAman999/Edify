@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,23 +33,18 @@ class PostDetails extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                child: Container(
-                  height: 30.h,
-                  width: 90.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          imgurl,
-                        )),
+                  child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Hero(
+                  tag: imgurl,
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    height: 30.h,
+                    width: 90.w,
+                    imageUrl: imgurl,
                   ),
                 ),
-              ),
+              )),
               SizedBox(
                 height: 2.h,
               ),

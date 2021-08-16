@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               textStyle: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          backgroundColor: Colors.lightBlue[400],
+          backgroundColor: Colors.lightBlue[420],
           elevation: 0,
           toolbarHeight: 6.h,
         ),
@@ -180,7 +180,7 @@ class PostTile extends StatelessWidget {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SingleChildScrollView(
                     child: Container(
@@ -201,18 +201,24 @@ class PostTile extends StatelessWidget {
                           ),
                         ],
                       ),
-                      height: 28.h,
-                      width: 65.w,
+                      height: 14.h,
+                      width: 44.w,
                       child: Stack(fit: StackFit.expand, children: [
-                        CachedNetworkImage(
-                          imageUrl: imgurl,
-                          fit: BoxFit.cover,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Hero(
+                            tag: imgurl,
+                            child: CachedNetworkImage(
+                              imageUrl: imgurl,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ]),
                     ),
                   ),
                   SizedBox(
-                    width: 2.w,
+                    width: 3.w,
                   ),
                   SingleChildScrollView(
                     child: Container(
@@ -223,7 +229,7 @@ class PostTile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(
-                                width: 20.w,
+                                width: 42.w,
                                 child: Text(
                                   "Title",
                                   style: TextStyle(
@@ -234,8 +240,8 @@ class PostTile extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                width: 20.w,
-                                height: 4.h,
+                                width: 42.w,
+                                height: 3.h,
                                 child: SingleChildScrollView(
                                   child: Text(
                                     title,
@@ -250,7 +256,7 @@ class PostTile extends StatelessWidget {
                           Column(
                             children: [
                               Container(
-                                width: 22.w,
+                                width: 42.w,
                                 child: Text(
                                   "Description",
                                   style: TextStyle(
@@ -261,13 +267,13 @@ class PostTile extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                width: 24.w,
-                                height: 10.h,
+                                width: 42.w,
+                                height: 4.h,
                                 child: SingleChildScrollView(
                                   child: Text(
                                     description,
                                     style: TextStyle(
-                                      fontSize: 8.sp,
+                                      fontSize: 9.sp,
                                     ),
                                   ),
                                 ),
