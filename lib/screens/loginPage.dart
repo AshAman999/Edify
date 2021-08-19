@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: "${data.name}", password: "${data.password}");
-      return "";
+      return "Account Created, Please Sign In";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return ('The password provided is too weak.');
@@ -75,8 +75,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String> _recoverPassword(String name) {
+    FirebaseAuth.instance.sendPasswordResetEmail(email: name);
     return Future.delayed(loginTime).then((_) {
-      return "null";
+      return "Reset Link HasBeen SentTo Your Email";
     });
   }
 
@@ -87,6 +88,7 @@ class LoginScreen extends StatelessWidget {
       // logo: 'assets/images/ecorp-lightblue.png',
       onLogin: _authUser,
       onSignup: _signup,
+      onRecoverPassword: _recoverPassword,
 
       loginProviders: <LoginProvider>[
         LoginProvider(
@@ -103,11 +105,10 @@ class LoginScreen extends StatelessWidget {
       ],
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MyHomePage(title: "Edify"),
+          builder: (context) => MyApp(),
         ));
       },
       messages: LoginMessages(signUpSuccess: "User registration sucesfull"),
-      onRecoverPassword: _recoverPassword,
     );
   }
 }

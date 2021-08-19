@@ -1,22 +1,57 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:edify/database/add_post.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class PostDetails extends StatelessWidget {
-  String imgurl, title, description, authorName, location;
+  String imgurl, title, description, authorName, location, id;
   PostDetails(
     this.authorName,
     this.imgurl,
     this.description,
     this.location,
     this.title,
+    this.id,
   );
   @override
   Widget build(BuildContext context) {
+    FirebaseHelper firebaseHelper = FirebaseHelper();
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Delte ?'),
+                  content:
+                      const Text('Are you sure you wanna delete this post'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        firebaseHelper.delete(id);
+
+                        Navigator.pop(context, 'OK');
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Yes'),
+                    ),
+                  ],
+                ),
+              );
+              print(id);
+              firebaseHelper.delete(id);
+            },
+          ),
+        ],
         leading: GestureDetector(
           child: Icon(Icons.arrow_left),
           onTap: () {
@@ -63,7 +98,7 @@ class PostDetails extends StatelessWidget {
                         Text(
                           "Title",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.lightBlueAccent,
                             fontSize: 25.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -96,7 +131,7 @@ class PostDetails extends StatelessWidget {
                         Text(
                           "Description",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.lightBlueAccent,
                             fontSize: 25.sp,
                             fontWeight: FontWeight.bold,
                           ),

@@ -22,9 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+   
     firebaseHelper.getBlogs().then((result) {
       blogSnapshot = result;
       loaded = true;
+      // delete a cerain query form firebase
+          
       print(result.docs[0].get("uploaderName").toString());
       setState(() {});
       super.initState();
@@ -41,11 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return PostTile(
-            blogSnapshot.docs[index].get("uploaderName"),
-            blogSnapshot.docs[index].get("uploadedImgUrl"),
-            blogSnapshot.docs[index].get("desc"),
-            blogSnapshot.docs[index].get("Location"),
-            blogSnapshot.docs[index].get("title"));
+          blogSnapshot.docs[index].get("uploaderName"),
+          blogSnapshot.docs[index].get("uploadedImgUrl"),
+          blogSnapshot.docs[index].get("desc"),
+          blogSnapshot.docs[index].get("Location"),
+          blogSnapshot.docs[index].get("title"),
+          blogSnapshot.docs[index].id,
+        );
       },
     );
   }
@@ -55,14 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.menu),
+          // leading: Icon(Icons.menu),
           title: Text(
             "Edify",
             style: GoogleFonts.shadowsIntoLight(
+              letterSpacing: 2.sp,
               textStyle: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          backgroundColor: Colors.lightBlue[420],
+          backgroundColor: Colors.lightBlueAccent,
           elevation: 0,
           toolbarHeight: 6.h,
         ),
@@ -78,13 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // ignore: must_be_immutable
 class PostTile extends StatelessWidget {
-  String imgurl, title, description, authorName, location;
+  String imgurl, title, description, authorName, location, id;
   PostTile(
     this.authorName,
     this.imgurl,
     this.description,
     this.location,
     this.title,
+    this.id,
   );
 
   @override
@@ -95,8 +102,8 @@ class PostTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                PostDetails(authorName, imgurl, description, location, title),
+            builder: (context) => PostDetails(
+                authorName, imgurl, description, location, title, id),
           ),
         );
       },
@@ -130,7 +137,7 @@ class PostTile extends StatelessWidget {
                       Padding(padding: EdgeInsets.only(left: 3.w)),
                       Icon(
                         Icons.people,
-                        color: Colors.lightBlue,
+                        color: Colors.lightBlueAccent,
                       ),
                       Container(
                         padding: EdgeInsets.all(1.w),
@@ -149,7 +156,7 @@ class PostTile extends StatelessWidget {
                           authorName,
                           style: TextStyle(
                             fontSize: 12.sp,
-                            color: Colors.blue,
+                            color: Colors.lightBlueAccent,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -233,7 +240,7 @@ class PostTile extends StatelessWidget {
                                 child: Text(
                                   "Title",
                                   style: TextStyle(
-                                    color: Colors.blue,
+                                    color: Colors.lightBlueAccent,
                                     fontSize: 13.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -261,7 +268,7 @@ class PostTile extends StatelessWidget {
                               child: Text(
                                 "Description",
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Colors.lightBlueAccent,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.bold,
                                 ),

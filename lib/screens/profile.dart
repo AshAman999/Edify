@@ -1,3 +1,4 @@
+import 'package:edify/screens/ProfileEdit.dart';
 import 'package:edify/screens/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +18,7 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary;
+    final color = Colors.lightBlueAccent;
 
     return Center(
       child: Stack(
@@ -36,14 +37,15 @@ class ProfileWidget extends StatelessWidget {
   Widget buildImage() {
     final image = NetworkImage(imagePath);
 
-    return ClipOval(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(90.0),
       child: Material(
         color: Colors.transparent,
         child: Ink.image(
           image: image,
+          height: 150,
+          width: 150,
           fit: BoxFit.cover,
-          width: 25.w,
-          height: 16.h,
           child: InkWell(onTap: onClicked),
         ),
       ),
@@ -89,12 +91,12 @@ class ButtonWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: StadiumBorder(),
-          onPrimary: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+  Widget build(BuildContext context) => CupertinoButton(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
         ),
+        borderRadius: BorderRadius.circular(30.0),
+        color: Colors.lightBlueAccent,
         child: Text(text),
         onPressed: onClicked,
       );
@@ -106,15 +108,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  var user;
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var user = FirebaseAuth.instance.currentUser;
-
     // get user about information
 
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(),
+        title: Text("Profile Section"),
         backgroundColor: Colors.lightBlue[400],
         elevation: 0,
         toolbarHeight: 6.h,
@@ -135,7 +142,14 @@ class _ProfilePageState extends State<ProfilePage> {
             imagePath: user!.photoURL == null
                 ? "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=85"
                 : user.photoURL.toString(),
-            onClicked: () async {},
+            onClicked: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditProfileForm(),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 24),
           Center(child: buildUpgradeButton(user)),
@@ -159,12 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
       );
 
   Widget buildUpgradeButton(user) => ButtonWidget(
-        text: user.displayName == "" ? "Edit Name" : user.displayName,
-        onClicked: () async {
-          // await FirebaseAuth.instance.signOut();
-          // SystemNavigator.pop();
-        },
-      );
+      text: user.displayName == "" ? "Edit Name" : user.displayName,
+      onClicked: () async {});
 
   Widget buildAbout(user) => Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w),

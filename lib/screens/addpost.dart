@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
 import 'package:geolocator/geolocator.dart';
@@ -19,12 +19,13 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   FirebaseHelper helper = FirebaseHelper();
-
-  late TextEditingController location;
   bool isloading = false;
   String imglink = "";
-  String title = "", description = "", city = "", author = "";
+  String title = "", description = "", city = "";
   String imagePath = "";
+  String author = (FirebaseAuth.instance.currentUser!.displayName == ""
+      ? "Aman Tester"
+      : FirebaseAuth.instance.currentUser!.displayName)!;
   final picker = ImagePicker();
   var pickedFile;
   void selectImage() async {
@@ -40,29 +41,16 @@ class _AddPostState extends State<AddPost> {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     var first;
-    setState(() async {
-      final coordinates =
-          new Coordinates(position.latitude, position.longitude);
-      var addresses =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      first = addresses.first.locality;
-      print(" : $first");
-    });
-    city = first;
-    return first;
-  }
-
-  @override
-  void initState() {
-    author = (FirebaseAuth.instance.currentUser!.displayName == ""
-        ? "Aman Tester"
-        : FirebaseAuth.instance.currentUser!.displayName)!;
-
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    first = addresses.first.locality;
+    print(" : $first");
     setState(() {
-      getLocation();
-      location = TextEditingController(text: city);
+      city = first;
     });
-    super.initState();
+
+    return first;
   }
 
   void postBlog() async {
@@ -74,7 +62,7 @@ class _AddPostState extends State<AddPost> {
         text: "Please Select an Image",
       );
       return;
-    } else if (title == "" || description == "" || location.text == "") {
+    } else if (title == "" || description == "" || city == "") {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.warning,
@@ -94,7 +82,7 @@ class _AddPostState extends State<AddPost> {
         "uploaderName": author,
         "title": title,
         "desc": description,
-        "Location": location.text,
+        "Location": city,
       };
       helper.addData(postMap).then((value) {
         print("upload sucessfull");
@@ -103,7 +91,7 @@ class _AddPostState extends State<AddPost> {
           pickedFile = null;
           title = "";
           description = "";
-          location.text = "";
+          city = "";
           CoolAlert.show(
             context: context,
             type: CoolAlertType.success,
@@ -197,7 +185,7 @@ class _AddPostState extends State<AddPost> {
                             Text(
                               "Title",
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.lightBlueAccent,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -211,7 +199,7 @@ class _AddPostState extends State<AddPost> {
                             Text(
                               "Description",
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.lightBlueAccent,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -225,25 +213,43 @@ class _AddPostState extends State<AddPost> {
                                 description = value;
                               },
                             ),
-                            Text(
-                              "Location",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Location",
+                                  style: TextStyle(
+                                    color: Colors.lightBlueAccent,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                GestureDetector(
+                                  child: Icon(
+                                    Icons.gps_fixed,
+                                    color: Colors.lightBlueAccent,
+                                    size: 22,
+                                  ),
+                                  onTap: getLocation,
+                                ),
+                              ],
                             ),
                             CupertinoTextField(
-                              placeholder: city,
-                              autofillHints: [city],
-                              controller: location,
+                              placeholder: "Enter a city Name",
+                              controller: TextEditingController()..text = city,
+                              onChanged: (value) {
+                                city = value;
+                              },
                             ),
                             Center(
                               child: Container(
                                 margin: EdgeInsets.symmetric(vertical: 25),
                                 padding: EdgeInsets.all(10),
                                 child: CupertinoButton(
-                                    color: Colors.blue,
+                                    color: Colors.lightBlueAccent,
                                     child: Text("Post"),
                                     onPressed: () {
                                       setState(() {});

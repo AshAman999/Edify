@@ -60,6 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.lightBlueAccent,
+
         height: 45,
         // (MediaQuery.of(context).size.height ) / 100 * 40,
 
@@ -68,9 +70,16 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           Icon(
             Icons.home,
+            color: Colors.lightBlueAccent,
           ),
-          Icon(Icons.add_circle_rounded),
-          Icon(Icons.person),
+          Icon(
+            Icons.add_circle_rounded,
+            color: Colors.lightBlueAccent,
+          ),
+          Icon(
+            Icons.person,
+            color: Colors.lightBlueAccent,
+          ),
         ],
       ),
       body: _tabs[_currentIndex],

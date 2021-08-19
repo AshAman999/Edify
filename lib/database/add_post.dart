@@ -14,6 +14,11 @@ class FirebaseHelper {
       print(e);
     });
   }
+  //delete a post
+
+  delete(id) async {
+    await FirebaseFirestore.instance.collection("blogs").doc(id).delete();
+  }
 
   getBlogs() async {
     return await FirebaseFirestore.instance.collection("blogs").get();

@@ -258,6 +258,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  flutter_geocoder:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "7059f6f629336be2fa71117e971b5e7d9fd091f9"
+      url: "https://github.com/JCKodel/flutter_geocoder.git"
+    source: git
+    version: "0.2.2-nullsafety"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -303,13 +312,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.1.0"
-  geocoder:
-    dependency: "direct main"
-    description:
-      name: geocoder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   geolocator:
     dependency: "direct main"
     description:
@@ -665,6 +667,48 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.9"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   uuid:
     dependency: transitive
     description:
