@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:edify/database/add_post.dart';
+import 'package:edify/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,6 +101,9 @@ class _AddPostState extends State<AddPost> {
           setState(() {
             isloading = false;
           });
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ));
           return;
         });
       }); // upload image to firebase

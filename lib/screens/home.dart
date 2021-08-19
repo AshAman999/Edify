@@ -22,12 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-   
     firebaseHelper.getBlogs().then((result) {
       blogSnapshot = result;
       loaded = true;
-      // delete a cerain query form firebase
-          
       print(result.docs[0].get("uploaderName").toString());
       setState(() {});
       super.initState();

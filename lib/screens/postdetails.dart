@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edify/database/add_post.dart';
+import 'package:edify/main.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,7 @@ class PostDetails extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Delte ?'),
+                  title: const Text('Delete ?'),
                   content:
                       const Text('Are you sure you wanna delete this post'),
                   actions: <Widget>[
@@ -38,9 +39,10 @@ class PostDetails extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         firebaseHelper.delete(id);
-
                         Navigator.pop(context, 'OK');
-                        Navigator.pop(context);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => MyApp(),
+                        ));
                       },
                       child: const Text('Yes'),
                     ),
